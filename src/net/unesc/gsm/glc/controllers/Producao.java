@@ -1,14 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.unesc.gsm.glc.controllers;
 
-/**
- *
- * @author mtsgeneroso
- */
+import java.util.ArrayList;
+
 public class Producao {
+    private String esquerda;
+    private ArrayList<String> direita;
+
+    public String getEsquerda() {
+        return esquerda;
+    }
+
+    public void setEsquerda(String esquerda) {
+        this.esquerda = esquerda;
+    }
+
+    public ArrayList<String> getDireita() {
+        return direita;
+    }
+
+    public void setRight(ArrayList<String> direita) {
+        this.direita = direita;
+    }
+    
+    public void addRight(String simbolo){
+        this.direita.add(simbolo);
+    }
     
 }
