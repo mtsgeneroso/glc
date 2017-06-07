@@ -9,12 +9,12 @@ import net.unesc.gsm.glc.controllers.MainCtrl;
 import net.unesc.gsm.glc.frames.MainFrame;
 
 public class MainActionListener implements ActionListener {
-    
-private MainCtrl main;
-private MainFrame MainFrame;
 
-public  MainActionListener (MainCtrl main, MainFrame tela){
-        
+    private MainCtrl main;
+    private MainFrame MainFrame;
+
+    public MainActionListener(MainCtrl main, MainFrame tela) {
+
         this.main = main;
         this.MainFrame = tela;
 
@@ -22,7 +22,8 @@ public  MainActionListener (MainCtrl main, MainFrame tela){
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (e.getActionCommand().equals("Sair")) {
+            this.MainFrame.dispose();
+        }
     }
-   
 }
