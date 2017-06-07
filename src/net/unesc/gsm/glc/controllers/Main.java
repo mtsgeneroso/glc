@@ -9,6 +9,6 @@ package net.unesc.gsm.glc.controllers;
  *
  * @author Mateus Silvano
  */
-public class MainCtrl {
+public class Main {
     
 }

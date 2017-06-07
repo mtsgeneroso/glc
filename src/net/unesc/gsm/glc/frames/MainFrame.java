@@ -1,18 +1,18 @@
 package net.unesc.gsm.glc.frames;
 
 import net.unesc.gsm.glc.actionlisteners.MainActionListener;
-import net.unesc.gsm.glc.controllers.MainCtrl;
+import net.unesc.gsm.glc.controllers.Main;
 
 public class MainFrame extends javax.swing.JFrame {
 
-    private MainCtrl main;
+    private Main mainFrame;
     
     public MainFrame() {
         initComponents();
         
-        main = new MainCtrl();
+        mainFrame = new Main();
         
-        btnSair.addActionListener(new MainActionListener(main, this));
+        btnSair.addActionListener(new MainActionListener(mainFrame, this));
     }
 
     /**
