@@ -3,26 +3,26 @@ package net.unesc.gsm.glc.controllers;
 import java.util.ArrayList;
 
 public class Producao {
-    private String esquerda;
-    private ArrayList<String> direita;
+    private Simbolo esquerda;
+    private ArrayList<Simbolo> direita;
 
-    public String getEsquerda() {
+    public Simbolo getEsquerda() {
         return esquerda;
     }
 
-    public void setEsquerda(String esquerda) {
+    public void setEsquerda(Simbolo esquerda) {
         this.esquerda = esquerda;
     }
 
-    public ArrayList<String> getDireita() {
+    public ArrayList<Simbolo> getDireita() {
         return direita;
     }
 
-    public void setRight(ArrayList<String> direita) {
+    public void setRight(ArrayList<Simbolo> direita) {
         this.direita = direita;
     }
     
-    public void addRight(String simbolo){
+    public void addRight(Simbolo simbolo){
         this.direita.add(simbolo);
     }
     
