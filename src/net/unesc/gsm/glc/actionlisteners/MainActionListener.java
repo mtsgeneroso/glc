@@ -1,21 +1,19 @@
 package net.unesc.gsm.glc.actionlisteners;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import javax.swing.JOptionPane;
-import net.unesc.gsm.glc.controllers.Main;
+import java.util.ArrayList;
+import net.unesc.gsm.glc.controllers.Producao;
 import net.unesc.gsm.glc.frames.MainFrame;
 
 public class MainActionListener implements ActionListener {
 
-    private Main main;
+    private ArrayList<Producao> gramatica;
     private MainFrame MainFrame;
 
-    public MainActionListener(Main main, MainFrame tela) {
+    public MainActionListener(ArrayList<Producao> gramatica, MainFrame tela) {
 
-        this.main = main;
+        this.gramatica = gramatica;
         this.MainFrame = tela;
 
     }
