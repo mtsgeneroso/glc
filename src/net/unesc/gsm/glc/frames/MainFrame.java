@@ -32,12 +32,12 @@ public class MainFrame extends javax.swing.JFrame {
         btnExcluir = new javax.swing.JButton();
         pnSimplificacao = new javax.swing.JPanel();
         cbSimplificacao = new javax.swing.JComboBox<>();
-        btngerar = new javax.swing.JButton();
+        btnGerar = new javax.swing.JButton();
         spTabela = new javax.swing.JScrollPane();
         tbPrincipal = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        pnPosicao = new javax.swing.JPanel();
+        btnSubirNivel = new javax.swing.JButton();
+        btnDescerNivel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GSM");
@@ -60,14 +60,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        btngerar.setText("Gerar");
+        btnGerar.setText("Gerar");
 
         javax.swing.GroupLayout pnSimplificacaoLayout = new javax.swing.GroupLayout(pnSimplificacao);
         pnSimplificacao.setLayout(pnSimplificacaoLayout);
         pnSimplificacaoLayout.setHorizontalGroup(
             pnSimplificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(cbSimplificacao, 0, 0, Short.MAX_VALUE)
-            .addComponent(btngerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnGerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnSimplificacaoLayout.setVerticalGroup(
             pnSimplificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,7 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(cbSimplificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btngerar)
+                .addComponent(btnGerar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -92,27 +92,27 @@ public class MainFrame extends javax.swing.JFrame {
         ));
         spTabela.setViewportView(tbPrincipal);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Posição"));
+        pnPosicao.setBorder(javax.swing.BorderFactory.createTitledBorder("Posição"));
 
-        jButton1.setText("  🡩   Subir um nível");
-        jButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSubirNivel.setText("  🡩   Subir um nível");
+        btnSubirNivel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        jButton2.setText("  🡫   Descer um nível");
-        jButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDescerNivel.setText("  🡫   Descer um nível");
+        btnDescerNivel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout pnPosicaoLayout = new javax.swing.GroupLayout(pnPosicao);
+        pnPosicao.setLayout(pnPosicaoLayout);
+        pnPosicaoLayout.setHorizontalGroup(
+            pnPosicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnSubirNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDescerNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jButton1)
+        pnPosicaoLayout.setVerticalGroup(
+            pnPosicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnPosicaoLayout.createSequentialGroup()
+                .addComponent(btnSubirNivel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnDescerNivel)
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -127,7 +127,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnProducao, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                     .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnPosicao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnSimplificacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -144,7 +144,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(pnSimplificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnPosicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -198,13 +198,13 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDescerNivel;
     private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnGerar;
     private javax.swing.JButton btnProducao;
-    private javax.swing.JButton btngerar;
+    private javax.swing.JButton btnSubirNivel;
     private javax.swing.JComboBox<String> cbSimplificacao;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pnPosicao;
     private javax.swing.JPanel pnSimplificacao;
     private javax.swing.JScrollPane spTabela;
     private javax.swing.JTable tbPrincipal;
