@@ -15,11 +15,19 @@ public final class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         
-        tbPrincipal.getColumnModel().getColumn(0).setPreferredWidth(10);
-        tbPrincipal.getColumnModel().getColumn(0).setMinWidth(10);
-        tbPrincipal.getColumnModel().getColumn(0).setWidth(10);
-        tbPrincipal.getColumnModel().getColumn(0).setMaxWidth(10);
-        tbPrincipal.getColumnModel().getColumn(1).setPreferredWidth(5);
+        int colSimbolWidth = 80;
+        int colDividerWidth = 40;
+        
+        tbPrincipal.getColumnModel().getColumn(0).setPreferredWidth(colSimbolWidth);
+        tbPrincipal.getColumnModel().getColumn(0).setMinWidth(colSimbolWidth);
+        tbPrincipal.getColumnModel().getColumn(0).setWidth(colSimbolWidth);
+        tbPrincipal.getColumnModel().getColumn(0).setMaxWidth(colSimbolWidth);
+        
+        tbPrincipal.getColumnModel().getColumn(1).setPreferredWidth(colDividerWidth);
+        tbPrincipal.getColumnModel().getColumn(1).setMinWidth(colDividerWidth);
+        tbPrincipal.getColumnModel().getColumn(1).setWidth(colDividerWidth);
+        tbPrincipal.getColumnModel().getColumn(1).setMaxWidth(colDividerWidth);
+        
         tbPrincipal.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         
         MainActionListener mainAction = new MainActionListener(gramatica, this);
@@ -82,6 +90,8 @@ public final class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GSM");
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnProducao.setText("+  Produção");
         btnProducao.addActionListener(new java.awt.event.ActionListener() {
@@ -89,10 +99,13 @@ public final class MainFrame extends javax.swing.JFrame {
                 btnProducaoActionPerformed(evt);
             }
         });
+        getContentPane().add(btnProducao, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 59, 187, 40));
 
         btnExcluir.setText("Excluir");
+        getContentPane().add(btnExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(701, 59, 151, 40));
 
         pnSimplificacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Simplificações"));
+        pnSimplificacao.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cbSimplificacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Símbolos Inúteis", "Produções Unitárias", "Produções Vazias", "Combinada" }));
         cbSimplificacao.addActionListener(new java.awt.event.ActionListener() {
@@ -100,24 +113,12 @@ public final class MainFrame extends javax.swing.JFrame {
                 cbSimplificacaoActionPerformed(evt);
             }
         });
+        pnSimplificacao.add(cbSimplificacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 22, 177, 37));
 
         btnGerar.setText("Gerar");
+        pnSimplificacao.add(btnGerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 77, 177, 42));
 
-        javax.swing.GroupLayout pnSimplificacaoLayout = new javax.swing.GroupLayout(pnSimplificacao);
-        pnSimplificacao.setLayout(pnSimplificacaoLayout);
-        pnSimplificacaoLayout.setHorizontalGroup(
-            pnSimplificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cbSimplificacao, 0, 177, Short.MAX_VALUE)
-            .addComponent(btnGerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnSimplificacaoLayout.setVerticalGroup(
-            pnSimplificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnSimplificacaoLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(cbSimplificacao, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnGerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(pnSimplificacao, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 110, 190, 126));
 
         tbPrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -146,94 +147,36 @@ public final class MainFrame extends javax.swing.JFrame {
         tbPrincipal.getTableHeader().setReorderingAllowed(false);
         spTabela.setViewportView(tbPrincipal);
 
+        getContentPane().add(spTabela, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 13, -1, 223));
+
         pnPosicao.setBorder(javax.swing.BorderFactory.createTitledBorder("Posição"));
+        pnPosicao.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnSubirNivel.setText("  🡩   Subir um nível");
-        btnSubirNivel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSubirNivel.setText("Subir um nível");
+        pnPosicao.add(btnSubirNivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 16, 139, 42));
 
-        btnDescerNivel.setText("  🡫   Descer um nível");
-        btnDescerNivel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDescerNivel.setText("Descer um nível");
+        btnDescerNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescerNivelActionPerformed(evt);
+            }
+        });
+        pnPosicao.add(btnDescerNivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 76, 139, 43));
 
-        javax.swing.GroupLayout pnPosicaoLayout = new javax.swing.GroupLayout(pnPosicao);
-        pnPosicao.setLayout(pnPosicaoLayout);
-        pnPosicaoLayout.setHorizontalGroup(
-            pnPosicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSubirNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnDescerNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-        );
-        pnPosicaoLayout.setVerticalGroup(
-            pnPosicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnPosicaoLayout.createSequentialGroup()
-                .addComponent(btnSubirNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(btnDescerNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        getContentPane().add(pnPosicao, new org.netbeans.lib.awtextra.AbsoluteConstraints(701, 110, -1, -1));
 
         jLabel1.setText("::=");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(548, 36, -1, -1));
+        getContentPane().add(txtProducoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 33, 273, -1));
 
         lbProducoes.setText("Produções");
+        getContentPane().add(lbProducoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 13, -1, -1));
 
-        lbSimbolos.setText("Símbolos");
+        lbSimbolos.setText("Símbolo");
+        getContentPane().add(lbSimbolos, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 13, -1, -1));
+        getContentPane().add(txtSimbolo, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 33, 77, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(spTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnSimplificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnPosicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(btnProducao, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbSimbolos)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txtSimbolo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(3, 3, 3)
-                                    .addComponent(jLabel1)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtProducoes, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbProducoes))
-                            .addGap(15, 15, 15))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbSimbolos)
-                            .addComponent(lbProducoes))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtProducoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSimbolo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnProducao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pnSimplificacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pnPosicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(spTabela, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        setSize(new java.awt.Dimension(875, 301));
+        setSize(new java.awt.Dimension(875, 286));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -244,6 +187,10 @@ public final class MainFrame extends javax.swing.JFrame {
     private void btnProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProducaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnProducaoActionPerformed
+
+    private void btnDescerNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescerNivelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDescerNivelActionPerformed
 
     /**
      * @param args the command line arguments
