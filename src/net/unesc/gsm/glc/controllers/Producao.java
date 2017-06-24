@@ -18,12 +18,29 @@ public class Producao {
         return direita;
     }
 
-    public void setRight(ArrayList<Simbolo> direita) {
+    public void setDireita(ArrayList<Simbolo> direita) {
         this.direita = direita;
     }
     
-    public void addRight(Simbolo simbolo){
+    public void addDireita(Simbolo simbolo){
         this.direita.add(simbolo);
     }
+
+    @Override
+    public String toString() {
+        return "Producao{" + "esquerda=" + esquerda.toString() + ", direita=" + direita.toString() + '}';
+    }
+
+    public String getDireitaConcat() {
+        String out = "";
+        
+        for(Simbolo s : this.direita)
+            out += s.getCaracter();
+        
+        return out;
+        
+    }
+    
+    
     
 }

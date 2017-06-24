@@ -3,25 +3,61 @@ package net.unesc.gsm.glc.frames;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import net.unesc.gsm.glc.actionlisteners.MainActionListener;
 import net.unesc.gsm.glc.controllers.Producao;
 
-public class MainFrame extends javax.swing.JFrame {
+public final class MainFrame extends javax.swing.JFrame {
 
     private ArrayList<Producao> gramatica;
     
     public MainFrame() {
         initComponents();
         
+        tbPrincipal.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tbPrincipal.getColumnModel().getColumn(0).setMinWidth(10);
+        tbPrincipal.getColumnModel().getColumn(0).setWidth(10);
+        tbPrincipal.getColumnModel().getColumn(0).setMaxWidth(10);
+        tbPrincipal.getColumnModel().getColumn(1).setPreferredWidth(5);
+        tbPrincipal.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        
         MainActionListener mainAction = new MainActionListener(gramatica, this);
         
+        gramatica = new ArrayList<>();
+        atualizaTabela();
+        
         btnProducao.addActionListener(mainAction);
-        btnProducao.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                
-            }
-        });
+    }
+    public String[] getProducao(){
+        String[] prod = new String[2];
+        prod[0] = txtSimbolo.getText().toUpperCase();
+        prod[1] = txtProducoes.getText();
+        return prod;
+    }
+    
+
+    public void adicionarNaTabela(ArrayList<Producao> gramaticaParcial) {
+        
+        for(Producao p: gramaticaParcial)
+            this.gramatica.add(p);
+        
+        atualizaTabela();
+    }
+    
+    public void atualizaTabela(){
+        DefaultTableModel tbModel = (DefaultTableModel) tbPrincipal.getModel();
+        
+        for(Producao p : gramatica){
+            String[] row = new String[3];
+            
+            row[0] = p.getEsquerda().getCaracter();
+            row[1] = "::=   ";
+            row[2] = p.getDireitaConcat();
+            
+            tbModel.addRow(row);
+        }
+        tbPrincipal.setModel(tbModel);
     }
     
     @SuppressWarnings("unchecked")
@@ -38,11 +74,11 @@ public class MainFrame extends javax.swing.JFrame {
         pnPosicao = new javax.swing.JPanel();
         btnSubirNivel = new javax.swing.JButton();
         btnDescerNivel = new javax.swing.JButton();
-        txtSimbolos = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txtProducoes = new javax.swing.JTextField();
         lbProducoes = new javax.swing.JLabel();
         lbSimbolos = new javax.swing.JLabel();
+        txtSimbolo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GSM");
@@ -85,15 +121,29 @@ public class MainFrame extends javax.swing.JFrame {
 
         tbPrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Símbolo", "", "Produção"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbPrincipal.getTableHeader().setResizingAllowed(false);
+        tbPrincipal.getTableHeader().setReorderingAllowed(false);
         spTabela.setViewportView(tbPrincipal);
 
         pnPosicao.setBorder(javax.swing.BorderFactory.createTitledBorder("Posição"));
@@ -145,15 +195,16 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbSimbolos)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txtSimbolos, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel1))
-                                .addComponent(lbSimbolos))
+                                    .addComponent(txtSimbolo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(3, 3, 3)
+                                    .addComponent(jLabel1)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbProducoes)
-                                .addComponent(txtProducoes, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtProducoes, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbProducoes))
+                            .addGap(15, 15, 15))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -167,9 +218,9 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(lbProducoes))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtSimbolos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addComponent(txtProducoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtProducoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSimbolo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnProducao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,6 +296,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane spTabela;
     private javax.swing.JTable tbPrincipal;
     private javax.swing.JTextField txtProducoes;
-    private javax.swing.JTextField txtSimbolos;
+    private javax.swing.JTextField txtSimbolo;
     // End of variables declaration//GEN-END:variables
+
+
 }
