@@ -123,7 +123,7 @@ public final class MainFrame extends javax.swing.JFrame {
         */
         
         /* Test: Simbolos inúteis  */
-        
+        /*
         txtSimbolo.setText("S");
         txtProducoes.setText("baB|bBcG");
         btnProducao.doClick();
@@ -147,7 +147,7 @@ public final class MainFrame extends javax.swing.JFrame {
         txtSimbolo.setText("G");
         txtProducoes.setText("baG|aGb");
         btnProducao.doClick();
-        
+        */
         
     }
     

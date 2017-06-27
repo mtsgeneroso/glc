@@ -46,6 +46,7 @@ public class MainActionListener implements ActionListener {
 
     private void gerarSimplificacao() {
         ArrayList<Producao> gramatica = new ArrayList<>();
+        
         switch(mainFrame.getIndexOfComboBoxSimplificacao()){
             case 1:
                 gramatica = Eliminacoes.removerInuteis(mainFrame.getGramatica());
