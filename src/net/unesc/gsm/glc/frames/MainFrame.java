@@ -98,7 +98,7 @@ public final class MainFrame extends javax.swing.JFrame {
         */
         
         /* Test: Produções Unitárias  */
-        
+        /*
         txtSimbolo.setText("S");
         txtProducoes.setText("aAbBA|A|a");
         btnProducao.doClick();
@@ -113,6 +113,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         this.gramatica = Eliminacoes.removerUnitarias(this.gramatica);
         atualizaTabela();
+        */
         
         
         /* Test: Simbolos inúteis  */

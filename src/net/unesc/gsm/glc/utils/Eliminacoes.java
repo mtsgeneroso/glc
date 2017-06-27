@@ -106,8 +106,8 @@ public class Eliminacoes {
     
     public static ArrayList<Producao> removerUnitarias(ArrayList<Producao> gramatica){
         
-        ArrayList<Producao> gramaticaSemUnitarias = new ArrayList<Producao>(gramatica);
-        System.out.println(gramaticaSemUnitarias);
+        ArrayList<Producao> gramaticaSemUnitarias = removerVazias(new ArrayList<Producao>(gramatica));
+        
         ArrayList<Producao> novasProducoes = new ArrayList<>();
         
         
@@ -135,7 +135,7 @@ public class Eliminacoes {
    
     public static ArrayList<Producao> removerVazias(ArrayList<Producao> gramatica){
         
-        ArrayList<Producao> gramaticaSemVazias = (ArrayList<Producao>) gramatica.clone();
+        ArrayList<Producao> gramaticaSemVazias = new ArrayList<Producao>(gramatica);
         ArrayList<Producao> novasProducoes = new ArrayList<>();
         
         /* Filtra as produções vazias da gramática */
