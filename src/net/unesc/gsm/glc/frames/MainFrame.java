@@ -70,6 +70,7 @@ public final class MainFrame extends javax.swing.JFrame {
         
         btnProducao.addActionListener(mainAction);
         btnExcluirGramatica.addActionListener(mainAction);
+        btnGerar.addActionListener(mainAction);
         
         /* Test: Produções Vazias  */
         /*
@@ -136,7 +137,7 @@ public final class MainFrame extends javax.swing.JFrame {
         btnProducao.doClick();
         
         txtSimbolo.setText("E");
-        txtProducoes.setText("aB|bEa");
+        txtProducoes.setText("aE|a");
         btnProducao.doClick();
         
         txtSimbolo.setText("F");
@@ -147,14 +148,13 @@ public final class MainFrame extends javax.swing.JFrame {
         txtProducoes.setText("baG|aGb");
         btnProducao.doClick();
         
-        txtSimbolo.setText("");
-        txtProducoes.setText("");
-        
-        this.gramatica = Eliminacoes.removerInuteis(this.gramatica);
-        atualizaTabela();
-        
         
     }
+    
+    public int getIndexOfComboBoxSimplificacao() {
+        return cbSimplificacao.getSelectedIndex();
+    }
+    
     public String[] getProducao(){
         String[] prod = new String[2];
         prod[0] = txtSimbolo.getText().toUpperCase();
@@ -198,6 +198,15 @@ public final class MainFrame extends javax.swing.JFrame {
             tbModel.addRow(row);
         }
         tbPrincipal.setModel(tbModel);
+    }
+    
+    public void setGramatica(ArrayList<Producao> gramatica) {
+        this.gramatica = gramatica;
+        atualizaTabela();
+    }
+    
+    public ArrayList<Producao> getGramatica() {
+        return this.gramatica;
     }
     
     @SuppressWarnings("unchecked")
@@ -485,6 +494,9 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtProducoes;
     private javax.swing.JTextField txtSimbolo;
     // End of variables declaration//GEN-END:variables
+
+
+
 
 
 

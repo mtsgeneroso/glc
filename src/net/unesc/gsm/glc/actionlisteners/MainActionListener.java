@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import net.unesc.gsm.glc.controllers.Producao;
 import net.unesc.gsm.glc.controllers.Simbolo;
 import net.unesc.gsm.glc.frames.MainFrame;
+import net.unesc.gsm.glc.utils.Eliminacoes;
 
 public class MainActionListener implements ActionListener {
 
@@ -34,9 +35,34 @@ public class MainActionListener implements ActionListener {
             case "Excluir gramática":
                 limparGramatica();
                 break;
+            case "Gerar":
+                gerarSimplificacao();
+                break;
+             
             
             
         }
+    }
+
+    private void gerarSimplificacao() {
+        ArrayList<Producao> gramatica = new ArrayList<>();
+        switch(mainFrame.getIndexOfComboBoxSimplificacao()){
+            case 1:
+                gramatica = Eliminacoes.removerInuteis(mainFrame.getGramatica());
+                break;
+            case 2:
+                gramatica = Eliminacoes.removerUnitarias(mainFrame.getGramatica());
+                break;
+            case 3:
+                gramatica = Eliminacoes.removerVazias(mainFrame.getGramatica());
+                break;
+            case 4:
+                gramatica = Eliminacoes.removerCombinada(mainFrame.getGramatica());
+                break;
+        }
+        
+        
+        mainFrame.setGramatica(gramatica);
     }
     
     protected void limparGramatica(){
