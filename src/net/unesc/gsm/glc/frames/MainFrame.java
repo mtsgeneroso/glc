@@ -71,8 +71,8 @@ public final class MainFrame extends javax.swing.JFrame {
         btnProducao.addActionListener(mainAction);
         btnExcluirGramatica.addActionListener(mainAction);
         
-        /* Funções de teste */
-        
+        /* Test: Produções Vazias  */
+        /*
         txtSimbolo.setText("J");
         txtProducoes.setText("aWBbH|bBb|aHa");
         btnProducao.doClick();
@@ -94,6 +94,65 @@ public final class MainFrame extends javax.swing.JFrame {
         
         this.gramatica = Eliminacoes.removerVazias(this.gramatica);
         atualizaTabela();
+        */
+        
+        /* Test: Produções Unitárias  */
+        /*
+        txtSimbolo.setText("J");
+        txtProducoes.setText("aCb|CA");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("A");
+        txtProducoes.setText("bC|aCc|C");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("C");
+        txtProducoes.setText("bC|ab|D");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("D");
+        txtProducoes.setText("aA|bb");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("");
+        txtProducoes.setText("");
+        
+        this.gramatica = Eliminacoes.removerUnitarias(this.gramatica);
+        atualizaTabela();
+        */
+        
+        /* Test: Simbolos inúteis  */
+        
+        txtSimbolo.setText("S");
+        txtProducoes.setText("baB|bBcG");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("A");
+        txtProducoes.setText("baB|a");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("B");
+        txtProducoes.setText("bFa|aG|&");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("E");
+        txtProducoes.setText("aB|bEa");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("F");
+        txtProducoes.setText("aB|bEa");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("G");
+        txtProducoes.setText("baG|aGb");
+        btnProducao.doClick();
+        
+        txtSimbolo.setText("");
+        txtProducoes.setText("");
+        
+        this.gramatica = Eliminacoes.removerInuteis(this.gramatica);
+        atualizaTabela();
+        
         
     }
     public String[] getProducao(){

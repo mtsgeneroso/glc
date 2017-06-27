@@ -1,6 +1,7 @@
 package net.unesc.gsm.glc.utils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import net.unesc.gsm.glc.controllers.Producao;
 import net.unesc.gsm.glc.controllers.Simbolo;
 
@@ -34,7 +35,64 @@ public class Eliminacoes {
     }
     
     public static ArrayList<Producao> removerUnitarias(ArrayList<Producao> gramatica){
-        return gramatica;
+        
+        ArrayList<Producao> gramaticaSemUnitarias = removerVazias((ArrayList<Producao>) gramatica.clone());
+        ArrayList<Producao> novasProducoes = new ArrayList<>();
+        
+        
+        ArrayList<Producao> unitarias = hasUnitarias(gramaticaSemUnitarias);
+        for(Producao p: unitarias){
+            ArrayList<Producao> nProducoes = getProducoesOf(p.getDireita().get(0), gramaticaSemUnitarias);
+            
+            
+            for(Producao p1: nProducoes){
+                Producao pnova = new Producao();
+                pnova.setEsquerda(p.getEsquerda());
+                pnova.setDireita(p1.getDireita());
+                novasProducoes.add(pnova);
+            }
+        }
+        
+        for(Producao pvazia : unitarias){
+            gramaticaSemUnitarias.remove(pvazia);
+        }
+        
+        gramaticaSemUnitarias = mergeGramaticas(gramaticaSemUnitarias, novasProducoes);
+        
+        return gramaticaSemUnitarias;
+    }
+   
+    private static ArrayList<Producao> getProducoesOf(Simbolo unitaria, ArrayList<Producao> gramatica) {
+        ArrayList<Producao> producoes = new ArrayList<>();
+        
+        for(Producao p: gramatica){
+            if(p.getEsquerda().getCaracter().equals(unitaria.getCaracter())){
+                if(p.getDireita().size() == 1 && !p.getDireita().get(0).isFinal()){
+                    producoes = insertCombo(producoes, getProducoesOf(p.getDireita().get(0), gramatica));
+                } else {
+                    producoes.add(p);
+                }
+            }
+        }
+        return producoes;
+    }
+    
+    private static ArrayList<Producao> insertCombo(ArrayList<Producao> producoes, ArrayList<Producao> producoesOf) {
+        
+        for(Producao p: producoesOf)
+            producoes.add(p);
+        
+        return producoes;
+    }
+    
+    protected static ArrayList<Producao> hasUnitarias(ArrayList<Producao> gramatica){
+        ArrayList<Producao> producoesComUnitarias = new ArrayList<>();
+        
+        for(Producao p : gramatica)
+            if(p.getDireita().size() == 1 && !p.getDireita().get(0).isFinal())
+                producoesComUnitarias.add(p);
+        
+        return producoesComUnitarias;
     }
     
     public static ArrayList<Producao> removerVazias(ArrayList<Producao> gramatica){
@@ -86,53 +144,54 @@ public class Eliminacoes {
                 
                 novasProducoes.add(novaProducao);
                 ///System.out.println(possibilidade);
-                System.out.println(novaProducao.getDireitaConcat());
-                System.out.println("- - - -");
+                //System.out.println(novaProducao.getDireitaConcat());
+                //System.out.println("- - - -");
                 //System.out.println(novaProducao.getEsquerda().getCaracter() + "::=" + novaProducao.getDireitaConcat());
                 //System.out.println(possibilidade);
             
             }
             
-            /*
-            Producao novaProducao = p;
-                ArrayList<Simbolo> simbolos = (ArrayList<Simbolo>) novaProducao.getDireita().clone();
-
-                for(ArrayList<Boolean> ocorrencias: ){
-                    for(int i = 0; i < ocorrencias.size(); i++){
-                        if(ocorrencias.get(i)){
-                            //int posOcorrencia = getPosOcorrencia(pvazia.getEsquerda().getCaracter(), i + 1, simbolos);
-
-                            //simbolos.remove(posOcorrencia);
-                        }
-                    }
-
-                    p.setDireita(simbolos);
-                    novasProducoes.add(p);
-                    System.out.println(p.getEsquerda().getCaracter() + "::=" + p.getDireitaConcat());
-                }
-*/
-            
         }
         
-        
-        
         //System.out.println("Sem vazias: " + gramaticaSemVazias.size() + " Novas: " + novasProducoes.size() + " Produções Vazias: " + producoesVazias.size());
+        
+        novasProducoes = clearSimbolosEmpty(novasProducoes);
         
         gramaticaSemVazias = mergeGramaticas(gramaticaSemVazias, novasProducoes);
         
         return gramaticaSemVazias;
     }
 
-    private static ArrayList<Producao> mergeGramaticas(ArrayList<Producao> gramaticaSemVazias, ArrayList<Producao> novasProducoes) {
+    protected static ArrayList<Producao> clearSimbolosEmpty(ArrayList<Producao> novasProducoes) {
         
-        for(Producao pnova: novasProducoes)
-            if(!checkDuplicated(pnova, gramaticaSemVazias))
-                gramaticaSemVazias.add(pnova);
         
-        return gramaticaSemVazias;
+        for(Producao p: novasProducoes){
+            
+            ArrayList<Simbolo> simbolos = p.getDireita();
+            
+            Iterator<Simbolo> i = simbolos.iterator();
+            while (i.hasNext()) {
+               if(i.next().getCaracter().isEmpty()){
+                    i.remove();
+               }
+            }
+            p.setDireita(simbolos);
+        }
+        
+        
+        return novasProducoes;
     }
     
-    public static boolean checkDuplicated(Producao p, ArrayList<Producao> gramatica){
+    protected static ArrayList<Producao> mergeGramaticas(ArrayList<Producao> gramatica, ArrayList<Producao> novasProducoes) {
+        
+        for(Producao pnova: novasProducoes)
+            if(!checkDuplicated(pnova, gramatica))
+                gramatica.add(pnova);
+        
+        return gramatica;
+    }
+    
+    protected static boolean checkDuplicated(Producao p, ArrayList<Producao> gramatica){
         
         for(Producao p1: gramatica)
             if(p1.equals(p))
@@ -141,7 +200,7 @@ public class Eliminacoes {
         return false;
     }
 
-    private static ArrayList<Simbolo> cloneSimbolos(ArrayList<Simbolo> direita) {
+    protected static ArrayList<Simbolo> cloneSimbolos(ArrayList<Simbolo> direita) {
         ArrayList<Simbolo> clone = new ArrayList<>();
         
         for(Simbolo s : direita){
@@ -151,7 +210,7 @@ public class Eliminacoes {
         return clone;
     }
 
-    private static Integer getPosOcorrencia(ArrayList<Producao> producoesVazias, int ocorrencia, ArrayList<Simbolo> direita) {
+    protected static Integer getPosOcorrencia(ArrayList<Producao> producoesVazias, int ocorrencia, ArrayList<Simbolo> direita) {
         int i = 1;
         
         
@@ -170,9 +229,8 @@ public class Eliminacoes {
         return -1;
         
     }
-    
-    
-    private static ArrayList<ArrayList<Boolean>> gerarPossibilidades(int ocorrencias){
+        
+    protected static ArrayList<ArrayList<Boolean>> gerarPossibilidades(int ocorrencias){
         
         ArrayList<ArrayList<Boolean>> out = new ArrayList<>();
         
@@ -200,7 +258,7 @@ public class Eliminacoes {
         
     }
 
-    private static Integer getNumOcorrenciasSimbolo(ArrayList<Producao> producoesVazias, ArrayList<Simbolo> direita) {
+    protected static Integer getNumOcorrenciasSimbolo(ArrayList<Producao> producoesVazias, ArrayList<Simbolo> direita) {
         int num = 0;
         
         for(Producao p: producoesVazias)
@@ -211,7 +269,7 @@ public class Eliminacoes {
         return num;
     }
 
-    private static boolean isSimbolWithProducaoVazia(Simbolo s, ArrayList<Producao> producoesVazias) {
+    protected static boolean isSimbolWithProducaoVazia(Simbolo s, ArrayList<Producao> producoesVazias) {
         
         for(Producao p: producoesVazias){
             if(p.getEsquerda().getCaracter().equals(s.getCaracter())){
@@ -237,7 +295,7 @@ public class Eliminacoes {
         return removerInuteis(removerUnitarias(removerVazias(gramatica)));
     }
     
-    public static ArrayList<Producao> hasVazia(ArrayList<Producao> gramatica){
+    protected static ArrayList<Producao> hasVazia(ArrayList<Producao> gramatica){
         ArrayList<Producao> producoesComVazio = new ArrayList<>();
         
         for(Producao p : gramatica)
@@ -246,4 +304,7 @@ public class Eliminacoes {
         
         return producoesComVazio;
     }
+
+
+
 }

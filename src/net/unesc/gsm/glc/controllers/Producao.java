@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Producao {
     private Simbolo esquerda;
     private ArrayList<Simbolo> direita;
+    
+    public Producao(){
+        this.direita = new ArrayList<>();
+    }
 
     public Simbolo getEsquerda() {
         return esquerda;
