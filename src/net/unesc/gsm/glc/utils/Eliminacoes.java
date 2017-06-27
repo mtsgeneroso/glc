@@ -101,7 +101,7 @@ public class Eliminacoes {
         //for(Producao p: gramaticaSemInuteis)
             //System.out.println(p.getEsquerda().getCaracter() + "::=" + p.getDireitaConcat());
         
-        return gramaticaSemInuteis;
+        return sort(gramaticaSemInuteis);
     }
     
     public static ArrayList<Producao> removerUnitarias(ArrayList<Producao> gramatica){
@@ -130,7 +130,7 @@ public class Eliminacoes {
         
         gramaticaSemUnitarias = mergeGramaticas(gramaticaSemUnitarias, novasProducoes);
         
-        return gramaticaSemUnitarias;
+        return sort(gramaticaSemUnitarias);
     }
    
     public static ArrayList<Producao> removerVazias(ArrayList<Producao> gramatica){
@@ -197,11 +197,11 @@ public class Eliminacoes {
         
         gramaticaSemVazias = mergeGramaticas(gramaticaSemVazias, novasProducoes);
         
-        return gramaticaSemVazias;
+        return sort(gramaticaSemVazias);
     }
     
     public static ArrayList<Producao> removerCombinada(ArrayList<Producao> gramatica){
-        return removerInuteis(removerUnitarias(removerVazias(gramatica)));
+        return sort(removerInuteis(removerUnitarias(removerVazias(gramatica))));
     }
     
     protected static ArrayList<Simbolo> getSimbolosOf(Simbolo simbolo, ArrayList<Producao> gramatica, ArrayList<Simbolo> acessiveis) {
@@ -427,6 +427,26 @@ public class Eliminacoes {
                 producoesComVazio.add(p);
         
         return producoesComVazio;
+    }
+    
+    protected static ArrayList<Producao> sort(ArrayList<Producao> gramatica){
+        ArrayList<Simbolo> naoTerminais = new ArrayList<>();
+        ArrayList<Producao> novaGramatica = new ArrayList<>();
+        
+        for(Producao p: gramatica){
+            if(!existInList(p.getEsquerda(), naoTerminais))
+                naoTerminais.add(p.getEsquerda());
+        }
+        
+        for(Simbolo s: naoTerminais){
+            for(Producao p: gramatica){
+                if(s.getCaracter().equals(p.getEsquerda().getCaracter()))
+                    novaGramatica.add(p);
+            }
+        }
+        
+        return novaGramatica;
+    
     }
 
 }
