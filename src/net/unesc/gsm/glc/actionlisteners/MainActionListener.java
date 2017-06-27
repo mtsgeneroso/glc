@@ -14,12 +14,10 @@ import net.unesc.gsm.glc.frames.MainFrame;
 
 public class MainActionListener implements ActionListener {
 
-    private ArrayList<Producao> gramatica;
     private MainFrame mainFrame;
 
-    public MainActionListener(ArrayList<Producao> gramatica, MainFrame tela) {
+    public MainActionListener(MainFrame tela) {
 
-        this.gramatica = gramatica;
         this.mainFrame = tela;
 
     }
@@ -27,33 +25,47 @@ public class MainActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        if (e.getActionCommand().equals("+  Produção")) {
-            String[] prod = this.mainFrame.getProducao();
-            if(!checkSimbolo(prod[0])){
-                JOptionPane.showMessageDialog(null, "Simbolo inválido", "Erro de validação", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            List<String> producoes = parseProducoes(prod[1]);
-            ArrayList<Producao> prodCompleta = new ArrayList<>();
-            
-            
-            for(String p1 : producoes){
-                
-                Producao p = new Producao();
-                
-                p.setEsquerda(new Simbolo(prod[0]));
-                
-                p.setDireita(parseEsquerdaProducao(p1));
-                
-                prodCompleta.add(p);
-            }
-            
-            this.mainFrame.adicionarNaTabela(prodCompleta);
-            
+        String ev = e.getActionCommand();
+        
+        switch (ev) {
+            case "Adicionar":
+                adicionarProducao();
+                break;
+            case "Excluir gramática":
+                limparGramatica();
+                break;
             
             
         }
+    }
+    
+    protected void limparGramatica(){
+        this.mainFrame.clearGramatica();
+    }
+    
+    protected void adicionarProducao(){
+        String[] prod = this.mainFrame.getProducao();
+        if(!checkSimbolo(prod[0])){
+            JOptionPane.showMessageDialog(null, "Simbolo inválido", "Erro de validação", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        List<String> producoes = parseProducoes(prod[1]);
+        ArrayList<Producao> prodCompleta = new ArrayList<>();
+
+
+        for(String p1 : producoes){
+
+            Producao p = new Producao();
+
+            p.setEsquerda(new Simbolo(prod[0]));
+
+            p.setDireita(parseEsquerdaProducao(p1));
+
+            prodCompleta.add(p);
+        }
+
+        this.mainFrame.adicionarNaTabela(prodCompleta);
     }
     
     public boolean checkSimbolo(String simbolo){

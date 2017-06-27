@@ -15,7 +15,7 @@ public class Producao {
     }
 
     public ArrayList<Simbolo> getDireita() {
-        return direita;
+        return (ArrayList<Simbolo>) direita.clone();
     }
 
     public void setDireita(ArrayList<Simbolo> direita) {
@@ -39,6 +39,10 @@ public class Producao {
         
         return out;
         
+    }
+    
+    public boolean equals(Producao p){
+        return p.getEsquerda().getCaracter().equals(this.esquerda.getCaracter()) && p.getDireitaConcat().equals(this.getDireitaConcat());
     }
     
     
