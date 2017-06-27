@@ -7,30 +7,7 @@ import java.util.Set;
 import net.unesc.gsm.glc.controllers.Producao;
 import net.unesc.gsm.glc.controllers.Simbolo;
 
-public class Eliminacoes {
-    
-    /*  Gramáticas testes
-        Simbolos Inúteis
-     *  S -> baB|bBcG
-     *  A -> baB|a
-     *  B -> bFa|aG|&
-     *  E -> aB|bEa
-     *  F -> aB|bEa
-     *  G -> baG|aGb
-
-        Produções Unitárias
-     *  J -> aCb|CA
-     *  A -> bC|aCc|C
-     *  C -> bC|ab|D
-     *  D -> aA|bb
-
-        Produções Vazias
-     *  J -> aWBbH|bBb|aHa
-     *  B -> bWa|bBH|a
-     *  H -> bHB|aBB|&
-     *  W -> bB|bb|& 
-     */
-    
+public class Eliminacoes {    
    
     public static ArrayList<Producao> removerInuteis(ArrayList<Producao> gramatica){
         
@@ -78,9 +55,12 @@ public class Eliminacoes {
             
            for(Simbolo s: p.getDireita()){
                if(!s.isFinal()){
-                    //System.out.println(p.getEsquerda().getCaracter() + "::=" + p.getDireitaConcat());
-                    if(!existInList(s, terminais))
+                    
+                    if(!existInList(s, terminais)){
+                        //System.out.println(p.getEsquerda().getCaracter() + "::=" + p.getDireitaConcat() + " -> " + s.getCaracter() + " : " + p.getDireita().size());
                         i.remove();
+                        break;
+                    }
                }
            }
         }
@@ -124,62 +104,10 @@ public class Eliminacoes {
         return gramaticaSemInuteis;
     }
     
-    protected static ArrayList<Simbolo> getSimbolosOf(Simbolo simbolo, ArrayList<Producao> gramatica, ArrayList<Simbolo> acessiveis) {
-                
-        for(Producao p: gramatica){
-            if(p.getEsquerda().getCaracter().equals(simbolo.getCaracter())){
-                for(Simbolo s: p.getDireita()){
-                    if(!s.isFinal() && !existInList(s, acessiveis)){
-                        acessiveis.add(s);
-                        acessiveis = getSimbolosOf(s, gramatica, acessiveis);
-                    }
-                }
-            }
-        }
-        
-        return acessiveis;
-    }
-    
-    protected static ArrayList<Simbolo> insertComboSimbolos(ArrayList<Simbolo> to, ArrayList<Simbolo> from) {
-        
-        for(Simbolo s: from){
-            to.add(s);
-        }
-        
-        return to;
-    }
-    
-    protected static boolean existInList(Simbolo esquerda, ArrayList<Simbolo> terminais) {
-        
-        for(Simbolo s: terminais){
-            if(s.getCaracter().equals(esquerda.getCaracter()))
-                return true;
-        }
-        return false;
-    }  
-    
-    protected static boolean isOnlyTerminais(ArrayList<Simbolo> direita) {
-        for(Simbolo s: direita)
-            if(!s.isFinal())
-                return false;
-        return true;
-    }
-    
-    protected static boolean checkHasOnlyTerminais(Simbolo s, ArrayList<Producao> gramatica) {
-        
-        for(Producao p: gramatica){
-            if(p.getEsquerda().getCaracter().equals(s.getCaracter())){
-                if(isOnlyTerminais(p.getDireita()))
-                    return true;
-            }
-        }
-        
-        return false;
-    }
-    
     public static ArrayList<Producao> removerUnitarias(ArrayList<Producao> gramatica){
         
-        ArrayList<Producao> gramaticaSemUnitarias = removerVazias((ArrayList<Producao>) gramatica.clone());
+        ArrayList<Producao> gramaticaSemUnitarias = new ArrayList<Producao>(gramatica);
+        System.out.println(gramaticaSemUnitarias);
         ArrayList<Producao> novasProducoes = new ArrayList<>();
         
         
@@ -205,39 +133,6 @@ public class Eliminacoes {
         return gramaticaSemUnitarias;
     }
    
-    protected static ArrayList<Producao> getProducoesOf(Simbolo unitaria, ArrayList<Producao> gramatica) {
-        ArrayList<Producao> producoes = new ArrayList<>();
-        
-        for(Producao p: gramatica){
-            if(p.getEsquerda().getCaracter().equals(unitaria.getCaracter())){
-                if(p.getDireita().size() == 1 && !p.getDireita().get(0).isFinal()){
-                    producoes = insertCombo(producoes, getProducoesOf(p.getDireita().get(0), gramatica));
-                } else {
-                    producoes.add(p);
-                }
-            }
-        }
-        return producoes;
-    }
-    
-    protected static ArrayList<Producao> insertCombo(ArrayList<Producao> producoes, ArrayList<Producao> producoesOf) {
-        
-        for(Producao p: producoesOf)
-            producoes.add(p);
-        
-        return producoes;
-    }
-    
-    protected static ArrayList<Producao> hasUnitarias(ArrayList<Producao> gramatica){
-        ArrayList<Producao> producoesComUnitarias = new ArrayList<>();
-        
-        for(Producao p : gramatica)
-            if(p.getDireita().size() == 1 && !p.getDireita().get(0).isFinal())
-                producoesComUnitarias.add(p);
-        
-        return producoesComUnitarias;
-    }
-    
     public static ArrayList<Producao> removerVazias(ArrayList<Producao> gramatica){
         
         ArrayList<Producao> gramaticaSemVazias = (ArrayList<Producao>) gramatica.clone();
@@ -304,7 +199,97 @@ public class Eliminacoes {
         
         return gramaticaSemVazias;
     }
-
+    
+    public static ArrayList<Producao> removerCombinada(ArrayList<Producao> gramatica){
+        return removerInuteis(removerUnitarias(removerVazias(gramatica)));
+    }
+    
+    protected static ArrayList<Simbolo> getSimbolosOf(Simbolo simbolo, ArrayList<Producao> gramatica, ArrayList<Simbolo> acessiveis) {
+                
+        for(Producao p: gramatica){
+            if(p.getEsquerda().getCaracter().equals(simbolo.getCaracter())){
+                for(Simbolo s: p.getDireita()){
+                    if(!s.isFinal() && !existInList(s, acessiveis)){
+                        acessiveis.add(s);
+                        acessiveis = getSimbolosOf(s, gramatica, acessiveis);
+                    }
+                }
+            }
+        }
+        
+        return acessiveis;
+    }
+    
+    protected static ArrayList<Simbolo> insertComboSimbolos(ArrayList<Simbolo> to, ArrayList<Simbolo> from) {
+        
+        for(Simbolo s: from){
+            to.add(s);
+        }
+        
+        return to;
+    }
+    
+    protected static boolean existInList(Simbolo esquerda, ArrayList<Simbolo> terminais) {
+        
+        for(Simbolo s: terminais){
+            if(s.getCaracter().equals(esquerda.getCaracter()))
+                return true;
+        }
+        return false;
+    }  
+    
+    protected static boolean isOnlyTerminais(ArrayList<Simbolo> direita) {
+        for(Simbolo s: direita)
+            if(!s.isFinal())
+                return false;
+        return true;
+    }
+    
+    protected static boolean checkHasOnlyTerminais(Simbolo s, ArrayList<Producao> gramatica) {
+        
+        for(Producao p: gramatica){
+            if(p.getEsquerda().getCaracter().equals(s.getCaracter())){
+                if(isOnlyTerminais(p.getDireita()))
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+   
+    protected static ArrayList<Producao> getProducoesOf(Simbolo unitaria, ArrayList<Producao> gramatica) {
+        ArrayList<Producao> producoes = new ArrayList<>();
+        
+        for(Producao p: gramatica){
+            if(p.getEsquerda().getCaracter().equals(unitaria.getCaracter())){
+                if(p.getDireita().size() == 1 && !p.getDireita().get(0).isFinal()){
+                    producoes = insertCombo(producoes, getProducoesOf(p.getDireita().get(0), gramatica));
+                } else {
+                    producoes.add(p);
+                }
+            }
+        }
+        return producoes;
+    }
+    
+    protected static ArrayList<Producao> insertCombo(ArrayList<Producao> producoes, ArrayList<Producao> producoesOf) {
+        
+        for(Producao p: producoesOf)
+            producoes.add(p);
+        
+        return producoes;
+    }
+    
+    protected static ArrayList<Producao> hasUnitarias(ArrayList<Producao> gramatica){
+        ArrayList<Producao> producoesComUnitarias = new ArrayList<>();
+        
+        for(Producao p : gramatica)
+            if(p.getDireita().size() == 1 && !p.getDireita().get(0).isFinal())
+                producoesComUnitarias.add(p);
+        
+        return producoesComUnitarias;
+    }
+  
     protected static ArrayList<Producao> clearSimbolosEmpty(ArrayList<Producao> novasProducoes) {
         
         
@@ -432,10 +417,6 @@ public class Eliminacoes {
         }
         
         return pos;
-    }
-    
-    public static ArrayList<Producao> removerCombinada(ArrayList<Producao> gramatica){
-        return removerInuteis(removerUnitarias(removerVazias(gramatica)));
     }
     
     protected static ArrayList<Producao> hasVazia(ArrayList<Producao> gramatica){

@@ -98,57 +98,48 @@ public final class MainFrame extends javax.swing.JFrame {
         */
         
         /* Test: Produções Unitárias  */
-        /*
-        txtSimbolo.setText("J");
-        txtProducoes.setText("aCb|CA");
+        
+        txtSimbolo.setText("S");
+        txtProducoes.setText("aAbBA|A|a");
         btnProducao.doClick();
         
         txtSimbolo.setText("A");
-        txtProducoes.setText("bC|aCc|C");
+        txtProducoes.setText("aBb|bbA|B|&");
         btnProducao.doClick();
         
-        txtSimbolo.setText("C");
-        txtProducoes.setText("bC|ab|D");
+        txtSimbolo.setText("B");
+        txtProducoes.setText("bAa|aa");
         btnProducao.doClick();
-        
-        txtSimbolo.setText("D");
-        txtProducoes.setText("aA|bb");
-        btnProducao.doClick();
-        
-        txtSimbolo.setText("");
-        txtProducoes.setText("");
         
         this.gramatica = Eliminacoes.removerUnitarias(this.gramatica);
         atualizaTabela();
-        */
+        
         
         /* Test: Simbolos inúteis  */
         /*
         txtSimbolo.setText("S");
-        txtProducoes.setText("baB|bBcG");
+        txtProducoes.setText("aAbb|AD|aBBbB");
         btnProducao.doClick();
         
         txtSimbolo.setText("A");
-        txtProducoes.setText("baB|a");
+        txtProducoes.setText("aD|bA");
         btnProducao.doClick();
         
         txtSimbolo.setText("B");
-        txtProducoes.setText("bFa|aG|&");
+        txtProducoes.setText("aaB|bbBBa");
         btnProducao.doClick();
         
-        txtSimbolo.setText("E");
-        txtProducoes.setText("aE|a");
+        txtSimbolo.setText("C");
+        txtProducoes.setText("b|aD");
         btnProducao.doClick();
         
-        txtSimbolo.setText("F");
-        txtProducoes.setText("aB|bEa");
+        txtSimbolo.setText("D");
+        txtProducoes.setText("aaABb|bb");
         btnProducao.doClick();
         
-        txtSimbolo.setText("G");
-        txtProducoes.setText("baG|aGb");
-        btnProducao.doClick();
+        this.gramatica = Eliminacoes.removerInuteis(this.gramatica);
+        atualizaTabela();
         */
-        
     }
     
     public int getIndexOfComboBoxSimplificacao() {
@@ -159,6 +150,9 @@ public final class MainFrame extends javax.swing.JFrame {
         String[] prod = new String[2];
         prod[0] = txtSimbolo.getText().toUpperCase();
         prod[1] = txtProducoes.getText();
+        
+        txtSimbolo.setText("");
+        txtProducoes.setText("");
         return prod;
     }
     
